@@ -39,7 +39,7 @@ def get_audio_analysis(track_id:str, bearer_token:str):
     headers = {"Authorization":f"Bearer {bearer_token}"}
     response = requests.get(url = url, headers = headers)
     response.raise_for_status()
-    print(response.json())
+
     return response.json()
 
 
