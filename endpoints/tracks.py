@@ -9,6 +9,7 @@ def get_track(track_id:str, bearer_token:str):
 
     return response.json()
 
+
 def get_multiple_tracks(track_ids:list, bearer_token:str):
     
     if len(track_ids) > 50:
@@ -44,4 +45,3 @@ def get_audio_analysis(track_id:str, bearer_token:str):
 
 
 
-get_audio_analysis("11dFghVXANMlKmJXsNCbNl","BQBRVZjW-ReX2ZfBUbtwyXHGbgVI0t3VOVmka_qRr71BMY3st7Gd0UEmATVIoeIpvs1vAZKO-qmTf31CBdUQd8n1EPF7SkHfZCDxGKH1Gl_KllmAtpY")

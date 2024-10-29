@@ -13,7 +13,7 @@ def get_client_info(path:str='client_info.json'):
 
         return client_id, client_secret
     except Exception as e:
-        raise FileExistsError('Path is not correct to retrieve the client info.')
+        raise FileNotFoundError('Path is not correct to retrieve the client info.')
 
 
 def request_access_token(client_id:str,client_secret:str,path_to_write:str = 'bearer.json'):
@@ -30,14 +30,16 @@ def request_access_token(client_id:str,client_secret:str,path_to_write:str = 'be
         json.dump(response, fd)
     fd.close()
 
-def check_validity(path_to_read:str = "bearer.json"):
+def check_validity(path_to_read:str = "bearer.json", client_path_to_read = 'client_info.json'):
     with open(path_to_read) as fd:
         bearer_info = json.load(fd)
-        if int(bearer_info["expires_in"]) < time.time():
-            client_id, client_secret = get_client_info()
-            request_access_token(client_id, client_secret)
+        if int(bearer_info["expires_in"]) < (time.time() - 300):
+            print('-- Requesting Authorization from SPOTIFY --')
+            client_id, client_secret = get_client_info(client_path_to_read)
+            request_access_token(client_id, client_secret, path_to_write= path_to_read)
+            print("-- Retrieved Authorization --")
         else:
-            print("-- Authorization is Valid --")
+            print("-- Authorization is Already Valid --")
 
 
 def main():
